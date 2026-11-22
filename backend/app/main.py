@@ -1,0 +1,67 @@
+
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
+
+from app.database import engine, Base
+from app import models
+from app.routers import auth, events, attendance
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
+
+
+app = FastAPI(
+    title="CampusConnect API",
+    description="College Event Management System Backend",
+    version="1.0.0",
+    lifespan=lifespan
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5175"
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(auth.router)
+app.include_router(events.router)
+app.include_router(attendance.router)
+
+
+@app.get("/")
+def home():
+    return {"message": "CampusConnect Backend is running"}
+
+
+@app.get("/db-check")
+def database_check():
+    try:
+        with engine.connect() as connection:
+            result = connection.execute(
+                text("SELECT current_database(), current_user")
+            )
+            database, user = result.fetchone()
+
+        return {
+            "status": "connected",
+            "database": database,
+            "user": user
+        }
+
+    except SQLAlchemyError:
+        raise HTTPException(
+            status_code=503,
+            detail="Database connection failed"
+        )

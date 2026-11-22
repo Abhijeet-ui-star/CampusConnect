@@ -1,0 +1,238 @@
+
+@import "tailwindcss";
+
+/* ===============================
+   CAMPUSCONNECT - PREMIUM UI
+================================ */
+
+:root {
+  font-family: Inter, "Segoe UI", sans-serif;
+  color: #172554;
+  background: #f5f7ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 5%, #e0e7ff 0, transparent 28%),
+    radial-gradient(circle at 95% 20%, #ede9fe 0, transparent 25%),
+    #f7f8fc;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #172554;
+}
+
+/* Smooth interactions */
+
+button,
+a,
+input,
+select,
+textarea {
+  transition: all 0.2s ease;
+}
+
+button {
+  cursor: pointer;
+  letter-spacing: 0.1px;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Dashboard header */
+
+header {
+  background: linear-gradient(120deg, #111b45, #263b80, #4338a8) !important;
+  box-shadow: 0 8px 30px rgba(30, 41, 99, 0.2);
+  position: relative;
+  z-index: 5;
+}
+
+/* Main dashboard */
+
+main {
+  min-height: 100vh;
+}
+
+/* Cards */
+
+.bg-white.rounded-2xl,
+.bg-white.rounded-3xl,
+.bg-white.rounded-xl {
+  border: 1px solid #e8ebf5;
+  box-shadow: 0 8px 30px rgba(31, 41, 85, 0.055);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.bg-white.rounded-2xl:hover,
+.bg-white.rounded-xl:hover {
+  box-shadow: 0 12px 35px rgba(31, 41, 85, 0.09);
+}
+
+/* Headings */
+
+h1, h2, h3, h4 {
+  letter-spacing: -0.5px;
+}
+
+h1 {
+  font-weight: 800;
+}
+
+h2, h3 {
+  font-weight: 750;
+}
+
+/* Inputs */
+
+input,
+select,
+textarea {
+  border: 1px solid #dce2ef;
+  border-radius: 12px;
+  background: #fff;
+  color: #172554;
+  outline: none;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9aa4b8;
+}
+
+/* Buttons */
+
+button.bg-blue-700 {
+  background: linear-gradient(135deg, #3730a3, #4f46e5) !important;
+  box-shadow: 0 5px 14px rgba(79, 70, 229, 0.18);
+}
+
+button.bg-blue-700:hover:not(:disabled) {
+  background: linear-gradient(135deg, #312e81, #4338ca) !important;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.28);
+}
+
+button.bg-green-700 {
+  background: linear-gradient(135deg, #047857, #059669) !important;
+}
+
+button.bg-purple-700 {
+  background: linear-gradient(135deg, #6d28d9, #7c3aed) !important;
+}
+
+button.bg-red-600 {
+  background: linear-gradient(135deg, #dc2626, #ef4444) !important;
+}
+
+/* Event category labels */
+
+.rounded-full {
+  letter-spacing: 0.3px;
+}
+
+/* Tables */
+
+table {
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+thead th {
+  color: #475569;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: #f8faff;
+}
+
+td, th {
+  border-bottom: 1px solid #edf0f7;
+}
+
+/* QR ticket */
+
+svg {
+  max-width: 100%;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f3f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c4c9dd;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+/* Mobile responsive */
+
+@media (max-width: 640px) {
+  header {
+    padding: 14px !important;
+  }
+
+  section {
+    padding: 16px !important;
+  }
+
+  h2 {
+    font-size: 23px;
+  }
+
+  .bg-white.rounded-2xl,
+  .bg-white.rounded-3xl {
+    border-radius: 18px;
+  }
+
+  button {
+    font-size: 13px;
+  }
+}
