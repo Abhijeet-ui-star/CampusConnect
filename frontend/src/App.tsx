@@ -1,10 +1,11 @@
+
 import { useEffect, useState, type FormEvent, type ChangeEvent } from "react";
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import {
   GraduationCap, Mail, Lock, UserRound, LogOut,
   CalendarDays, MapPin, Users, RefreshCw, CheckCircle,
-  Ticket, Plus, Pencil, Trash2, ClipboardList
+  Ticket, Plus, Pencil, Trash2, ClipboardList, Eye, EyeOff
 } from "lucide-react";
 import QRScanner from "./Qrscanner";
 import api from "./api";
@@ -83,6 +84,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: FormEvent) {
@@ -141,15 +143,25 @@ function Login() {
             <label className="font-semibold text-sm">Password</label>
             <div className="flex items-center border rounded-xl px-3 mt-2">
               <Lock className="text-slate-400" size={19} />
+
               <input
                 className="w-full p-3 outline-none"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 autoComplete="current-password"
                 required
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-slate-500 hover:text-blue-700"
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
           </div>
 
@@ -176,6 +188,7 @@ function Login() {
 // REGISTER
 function Register() {
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     full_name: "",
     email: "",
@@ -183,6 +196,8 @@ function Register() {
     department: "",
     password: ""
   });
+
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   function update(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -258,16 +273,27 @@ function Register() {
             <option value="CE">Civil Engineering</option>
           </select>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password (minimum 8 characters)"
-            value={form.password}
-            onChange={update}
-            required
-            minLength={8}
-            className="w-full border rounded-xl p-3"
-          />
+          <div className="relative">
+            <input
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password (minimum 8 characters)"
+              value={form.password}
+              onChange={update}
+              required
+              minLength={8}
+              className="w-full border rounded-xl p-3 pr-12"
+            />
+
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-blue-700"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
 
           <button
             type="submit"
@@ -436,6 +462,8 @@ function Dashboard() {
       setRegistrationLoading(false);
     }
   }
+
+
 
   async function createEvent(e: FormEvent) {
     e.preventDefault();
@@ -957,7 +985,6 @@ function Dashboard() {
                       </>
                     )}
 
-                    {/* FIXED ORGANIZER VIEW BUTTON */}
                     <button
                       onClick={() => {
                         if (canScan) {
