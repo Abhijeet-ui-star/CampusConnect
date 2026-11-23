@@ -12,12 +12,14 @@ from app import models
 from app.routers import auth, events, attendance
 
 
+# DATABASE LIFESPAN
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     Base.metadata.create_all(bind=engine)
     yield
 
 
+# FASTAPI APPLICATION
 app = FastAPI(
     title="CampusConnect API",
     description="College Event Management System Backend",
@@ -25,15 +27,24 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+
+# CORS CONFIGURATION
 allowed_origins = [
     "http://localhost:5173",
     "http://localhost:5175",
+    "http://localhost:5176",
+    "https://campusconnect-frontend-8xv8.onrender.com",
 ]
 
+# Read frontend URL from Render environment
 frontend_url = os.getenv("FRONTEND_URL")
 
 if frontend_url:
-    allowed_origins.append(frontend_url.rstrip("/"))
+    frontend_url = frontend_url.rstrip("/")
+
+    if frontend_url not in allowed_origins:
+        allowed_origins.append(frontend_url)
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -43,16 +54,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# API ROUTERS
 app.include_router(auth.router)
 app.include_router(events.router)
 app.include_router(attendance.router)
 
 
+# HOME ROUTE
 @app.get("/")
 def home():
-    return {"message": "CampusConnect Backend is running"}
+    return {
+        "message": "CampusConnect Backend is running"
+    }
 
 
+# DATABASE HEALTH CHECK
 @app.get("/db-check")
 def database_check():
     try:
@@ -60,6 +77,7 @@ def database_check():
             result = connection.execute(
                 text("SELECT current_database(), current_user")
             )
+
             database, user = result.fetchone()
 
         return {
